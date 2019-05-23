@@ -66,7 +66,7 @@ func (a *Auth) LoginPost(w http.ResponseWriter, r *http.Request) error {
 	if err == authboss.ErrUserNotFound {
 		logger.Infof("failed to load user requested by pid: %s", pid)
 		data := authboss.HTMLData{authboss.DataErr: "Invalid Credentials"}
-		return a.Authboss.Core.Responder.Respond(w, r, http.StatusOK, PageLogin, data)
+		return a.Authboss.Core.Responder.Respond(w, r, http.StatusBadRequest, PageLogin, data)
 	} else if err != nil {
 		return err
 	}
@@ -88,7 +88,7 @@ func (a *Auth) LoginPost(w http.ResponseWriter, r *http.Request) error {
 
 		logger.Infof("user %s failed to log in", pid)
 		data := authboss.HTMLData{authboss.DataErr: "Invalid Credentials"}
-		return a.Authboss.Core.Responder.Respond(w, r, http.StatusOK, PageLogin, data)
+		return a.Authboss.Core.Responder.Respond(w, r, http.StatusBadRequest, PageLogin, data)
 	}
 
 	r = r.WithContext(context.WithValue(r.Context(), authboss.CTXKeyValues, validatable))
