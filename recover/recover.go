@@ -87,7 +87,7 @@ func (r *Recover) StartPost(w http.ResponseWriter, req *http.Request) error {
 	if errs := validatable.Validate(); errs != nil {
 		logger.Info("recover validation failed")
 		data := authboss.HTMLData{authboss.DataValidation: authboss.ErrorMap(errs)}
-		return r.Authboss.Core.Responder.Respond(w, req, http.StatusOK, PageRecoverStart, data)
+		return r.Authboss.Core.Responder.Respond(w, req, http.StatusBadRequest, PageRecoverStart, data)
 	}
 
 	recoverVals := authboss.MustHaveRecoverStartValues(validatable)
@@ -198,7 +198,7 @@ func (r *Recover) EndPost(w http.ResponseWriter, req *http.Request) error {
 			authboss.DataValidation: authboss.ErrorMap(errs),
 			DataRecoverToken:        token,
 		}
-		return r.Config.Core.Responder.Respond(w, req, http.StatusOK, PageRecoverEnd, data)
+		return r.Config.Core.Responder.Respond(w, req, http.StatusBadRequest, PageRecoverEnd, data)
 	}
 
 	rawToken, err := base64.URLEncoding.DecodeString(token)
@@ -273,7 +273,7 @@ func (r *Recover) EndPost(w http.ResponseWriter, req *http.Request) error {
 func (r *Recover) invalidToken(page string, w http.ResponseWriter, req *http.Request) error {
 	errors := []error{errors.New("recovery token is invalid")}
 	data := authboss.HTMLData{authboss.DataValidation: authboss.ErrorMap(errors)}
-	return r.Authboss.Core.Responder.Respond(w, req, http.StatusOK, PageRecoverEnd, data)
+	return r.Authboss.Core.Responder.Respond(w, req, http.StatusBadRequest, PageRecoverEnd, data)
 }
 
 func (r *Recover) mailURL(token string) string {
