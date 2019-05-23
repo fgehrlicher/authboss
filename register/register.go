@@ -115,7 +115,7 @@ func (r *Register) Post(w http.ResponseWriter, req *http.Request) error {
 		if preserve != nil {
 			data[authboss.DataPreserve] = preserve
 		}
-		return r.Config.Core.Responder.Respond(w, req, http.StatusOK, PageRegister, data)
+		return r.Config.Core.Responder.Respond(w, req, http.StatusBadRequest, PageRegister, data)
 	case err != nil:
 		return err
 	}

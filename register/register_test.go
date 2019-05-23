@@ -270,7 +270,7 @@ func TestRegisterPostUserExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	if h.responder.Status != http.StatusOK {
+	if h.responder.Status != http.StatusBadRequest {
 		t.Error("wrong status:", h.responder.Status)
 	}
 	if h.responder.Page != PageRegister {
